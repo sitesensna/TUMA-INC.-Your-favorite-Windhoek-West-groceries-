@@ -143,7 +143,7 @@ nav {
 
 /* Header / Hero */
 .header {
-  background: url('/img/banner1.jpg') center center/cover no-repeat;
+background: url('img/banner1.jpg') center center/cover no-repeat;
   position: relative;
   height: 360px;
   color: white;
@@ -360,4 +360,5 @@ footer img {
 .cart-notification.show {
   opacity: 1;
 }
+
 
