@@ -1,0 +1,127 @@
+      <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TUMA Grocery Delivery</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto&display=swap" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+   <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="navbar-container">
+      <a href="#" class="navbar-brand" aria-label="TUMA Home">
+        <img src="/img/logo.png" alt="TUMA logo" />
+        <span style="color: #ff9800;">Grocery Delivery</span> 
+      </a>
+      <div class="navbar-links" role="navigation" aria-label="Primary Navigation">
+        <a href="#" class="navbar-link active" aria-current="page">Home</a>
+        <a href="shop.html" class="navbar-link">Shop</a>
+        <a href="cart.html" class="navbar-link">Cart</a>
+        <a href="about.html" class="navbar-link">About</a>
+        <a href="cart.html" class="cart-icon" aria-label="View cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="navbarCartCount" aria-live="polite" aria-atomic="true">0</span>
+        </a>
+      </div>
+      <button class="mobile-menu-button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobileMenu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu" role="menu" aria-hidden="true">
+      <a href="#" role="menuitem">Home</a>
+      <a href="shop.html" role="menuitem">Shop</a>
+      <a href="cart.html" role="menuitem">Cart</a>
+      <a href="about.html" role="menuitem">About</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="header" role="banner">
+    <h1>Your favorite Windhoek West groceries, delivered</h1>
+    <p>Only NAD 15.00 per delivery • No minimum order</p>
+    <a href="shop.html"_blank" rel="noopener" class="cta-button" aria-label="Order groceries now">Order Groceries Now</a>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works" aria-labelledby="howItWorksTitle">
+    <h2 id="howItWorksTitle">How It Works</h2>
+    <div class="steps">
+      <article class="step" tabindex="0">
+        <h3>1. Pick your groceries</h3>
+        <p>Choose from Fresh Produce, Meat & Proteins, Staples & Dry Goods, Drinks & Snacks, and Household Essentials.</p>
+      </article>
+      <article class="step" tabindex="0">
+        <h3>2. Place your order online</h3>
+        <p>Use our easy Google Form to submit your order and delivery details.</p>
+      </article>
+      <article class="step" tabindex="0">
+        <h3>3. We deliver to your door</h3>
+        <p>Pay by cash or eWallet on delivery. Fast, friendly service guaranteed.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Announcement -->
+  <section class="announcement" role="alert">
+    📢 We now deliver daily from 9am to 6pm in Windhoek West!
+  </section>
+
+  <!-- Categories -->
+  <section class="categories" aria-label="Product categories">
+    <div class="category-card" tabindex="0" aria-describedby="cat1desc">
+      <div class="category-icon" aria-hidden="true"><i class="fas fa-carrot"></i></div>
+      <div class="category-name">Fresh Produce</div>
+      <div id="cat1desc" class="sr-only">Includes tomatoes, onions, potatoes, carrots, cabbage, and more.</div>
+    </div>
+    <div class="category-card" tabindex="0" aria-describedby="cat2desc">
+      <div class="category-icon" aria-hidden="true"><i class="fas fa-drumstick-bite"></i></div>
+      <div class="category-name">Meat & Proteins</div>
+      <div id="cat2desc" class="sr-only">Includes chicken, boerewors, eggs, beef mince, frozen fish, and more.</div>
+    </div>
+    <div class="category-card" tabindex="0" aria-describedby="cat3desc">
+      <div class="category-icon" aria-hidden="true"><i class="fas fa-bread-slice"></i></div>
+      <div class="category-name">Staples & Dry Goods</div>
+      <div id="cat3desc" class="sr-only">Includes bread, macaroni, sugar, rice, maize meal, and more.</div>
+    </div>
+    <div class="category-card" tabindex="0" aria-describedby="cat4desc">
+      <div class="category-icon" aria-hidden="true"><i class="fas fa-wine-glass-alt"></i></div>
+      <div class="category-name">Drinks & Snacks</div>
+      <div id="cat4desc" class="sr-only">Includes oros, coca-cola, water, biscuits, chips, and more.</div>
+    </div>
+    <div class="category-card" tabindex="0" aria-describedby="cat5desc">
+      <div class="category-icon" aria-hidden="true"><i class="fas fa-bath"></i></div>
+      <div class="category-name">Household Essentials</div>
+      <div id="cat5desc" class="sr-only">Includes toilet paper, dishwashing liquid, sunlight bar, bath soap, vaseline, and more.</div>
+    </div>
+  </section>
+
+  <footer>
+    <div style="max-width:900px;margin:0 auto;padding:16px;text-align:center;color:#666;font-size:15px;">
+      <img src="img/logo.png" alt="TUMA logo" style="height:32px;vertical-align:middle;margin-bottom:8px;">
+      <div style="font-weight:600;color:#138234;margin-bottom:8px;">TUMA Grocery Delivery</div>
+      <div style="margin-bottom:8px;">
+        <i class="fas fa-phone" style="color:#138234;"></i> +264 81 650 1070 &nbsp;|&nbsp;
+        <a href="mailto:tnghuulile@gmail.com" style="color:#138234;text-decoration:none;">
+          <i class="fas fa-envelope"></i> tnghuulile@gmail.com
+        </a>
+      </div>
+      <div style="margin-bottom:8px;">
+        <a href="https://wa.me/264816501070" target="_blank" rel="noopener" aria-label="WhatsApp" style="color:#25d366;font-size:18px;margin-right:8px;">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </div>
+      <div style="font-size:13px;">&copy; 2025 TUMA. All rights reserved.</div>
+    </div>
+  </footer>
+
+
+  <!-- Scripts -->
+   <script src="script.js"></script>
+
+</body>
+</html>
