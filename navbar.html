@@ -1,0 +1,45 @@
+<nav class="bg-white shadow-md">
+  <div class="container mx-auto px-4">
+    <div class="flex justify-between items-center py-4">
+      <!-- Logo and Brand -->
+      <div class="flex items-center">
+        <a href="index.html" class="text-2xl font-bold text-green-600">
+          <i class="fas fa-shopping-basket mr-2"></i>TUMA
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="index.html" class="navbar-link text-gray-700 hover:text-green-600 transition">Home</a>
+        <a href="shop.html" class="navbar-link text-gray-700 hover:text-green-600 transition">Shop</a>
+        <a href="#" class="navbar-link text-gray-700 hover:text-green-600 transition">About</a>
+        <a href="#" class="navbar-link text-gray-700 hover:text-green-600 transition">Contact</a>
+        
+        <!-- Cart Icon with Counter -->
+        <a href="cart.html" class="relative navbar-link text-gray-700 hover:text-green-600 transition">
+          <i class="fas fa-shopping-cart text-xl"></i>
+          <span id="navbarCartCount" class="absolute -top-2 -right-2 bg-green-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden flex items-center">
+        <button id="mobileMenuButton" class="text-gray-700 focus:outline-none">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden pb-4">
+      <a href="index.html" class="block py-2 navbar-link text-gray-700 hover:text-green-600 transition">Home</a>
+      <a href="shop.html" class="block py-2 navbar-link text-gray-700 hover:text-green-600 transition">Shop</a>
+      <a href="#" class="block py-2 navbar-link text-gray-700 hover:text-green-600 transition">About</a>
+      <a href="#" class="block py-2 navbar-link text-gray-700 hover:text-green-600 transition">Contact</a>
+      <a href="cart.html" class="block py-2 navbar-link text-gray-700 hover:text-green-600 transition flex items-center">
+        <i class="fas fa-shopping-cart mr-2"></i> Cart
+        <span id="mobileNavCartCount" class="ml-2 bg-green-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+      </a>
+    </div>
+  </div>
+</nav>

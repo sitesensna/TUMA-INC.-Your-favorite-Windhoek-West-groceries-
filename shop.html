@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TUMA Grocery Delivery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+            padding-top: 72px;
+        }
+        .gradient-header {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            margin-top: -72px;
+            padding-top: 72px;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .cart-float {
+            transition: all 0.3s ease;
+        }
+        .cart-float:hover {
+            transform: scale(1.05);
+        }
+        .tab-btn.active {
+            position: relative;
+        }
+        .tab-btn.active:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background: #4CAF50;
+            border-radius: 3px;
+        }
+        @media (min-width: 1024px) {
+            .cart-sidebar {
+                position: sticky;
+                top: 92px;
+                height: calc(100vh - 40px);
+                overflow-y: auto;
+            }
+        }
+        .search-container {
+            position: relative;
+        }
+        .search-container .clear-search {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+        }
+        .search-container .clear-search:hover {
+            color: #333;
+        }
+        .how-it-works {
+            background-color: #f8f9fa;
+            padding: 4rem 0;
+        }
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .step {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .step h3 {
+            color: #2E7D32;
+            margin-bottom: 1rem;
+        }
+        .restaurant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .restaurant {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .restaurant:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        .announcement {
+            background: #E3F2FD;
+            padding: 1rem;
+            text-align: center;
+            margin: 2rem 0;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        #mobileMenu {
+            transition: all 0.3s ease;
+        }
+        #navbarCartCount, #mobileNavCartCount {
+            transition: transform 0.2s ease;
+        }
+        #navbarCartCount:hover, #mobileNavCartCount:hover {
+            transform: scale(1.1);
+        }
+        .navbar-link {
+            position: relative;
+            padding-bottom: 4px;
+        }
+        .navbar-link:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4CAF50;
+            transition: width 0.3s ease;
+        }
+        .navbar-link:hover:after {
+            width: 100%;
+        }
+        .navbar-link.active {
+            color: #4CAF50;
+        }
+        .navbar-link.active:after {
+            width: 100%;
+        }
+        #mobileCartDrawer {
+            z-index: 1001;
+        }
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navbar Container -->
+    <div id="navbar-container">
+        <!-- Fallback Navbar (will be replaced by navbar.html if fetch succeeds) -->
+        <nav class="navbar navbar-expand-lg bg-white shadow-sm py-3">
+            <div class="container-fluid">
+                <a class="navbar-brand font-bold text-green-700" href="index.html">TUMA Grocery</a>
+                <button class="navbar-toggler" type="button" id="mobileMenuButton">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mobileMenu">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="navbar-link nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="navbar-link nav-link" href="shop.html">Shop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="navbar-link nav-link" href="about.html">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="navbar-link nav-link" href="contact.html">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="navbar-link nav-link position-relative" href="cart.html">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span id="navbarCartCount" class="badge bg-green-600 position-absolute top-0 start-100 translate-middle">0</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="gradient-header text-white py-16 text-center">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Your favorite NUST-area groceries delivered to you</h1>
+            <p class="text-xl md:text-2xl">Just NAD 15.00 per delivery<br>No minimum order size</p>
+        </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-2">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <h3 class="text-xl font-semibold">1. Pick your groceries</h3>
+                    <p>Choose groceries from Pick n Pay and Checkers.</p>
+                </div>
+                <div class="step">
+                    <h3 class="text-xl font-semibold">2. Order online</h3>
+                    <p>Place your order with us online and select your delivery location.</p>
+                </div>
+                <div class="step">
+                    <h3 class="text-xl font-semibold">3. We deliver the groceries!</h3>
+                    <p>Pay by cash when we deliver.</p>
+                </div>
+            </div>
+            <div class="text-center">
+                <button onclick="document.getElementById('product-section').scrollIntoView({ behavior: 'smooth' })" 
+                        class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition duration-200 shadow-lg">
+                    Click Here to Order Online
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Announcement -->
+    <div class="announcement container mx-auto px-4">
+        Announcement: We now deliver groceries daily from 9am – 6pm
+    </div>
+
+    <!-- Stores Section -->
+    <section class="container mx-auto px-4 py-12">
+        <h2 class="text-3xl font-bold text-center mb-6">Pick a Store</h2>
+        <div class="restaurant-grid">
+            <div class="restaurant">Pick n Pay</div>
+            <div class="restaurant">Checkers</div>
+            <div class="restaurant">Food Lovers</div>
+            <div class="restaurant">Shoprite</div>
+        </div>
+        <p class="text-center text-gray-600 mt-4"><strong>Note:</strong> Local delivery only around Windhoek-West.</p>
+    </section>
+
+    <!-- Products Section -->
+    <section id="product-section" class="container mx-auto px-4 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Products Section -->
+            <div class="w-full lg:w-2/3">
+                <!-- Search Bar -->
+                <div class="mb-8">
+                    <div class="search-container relative max-w-2xl mx-auto">
+                        <input type="text" id="searchInput" placeholder="Search for groceries..." 
+                            class="w-full py-3 px-5 pr-12 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent shadow-sm">
+                        <button id="searchButton" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-green-600">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <span id="clearSearch" class="clear-search hidden">
+                            <i class="fas fa-times"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Category Tabs -->
+                <div class="flex overflow-x-auto pb-2 mb-6 scrollbar-hide" id="categoryTabs"></div>
+
+                <!-- Products Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6" id="productGrid"></div>
+            </div>
+
+            <!-- Cart Sidebar - Visible on desktop -->
+            <div class="hidden lg:block w-full lg:w-1/3">
+                <div class="cart-sidebar bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="bg-green-600 text-white px-6 py-4">
+                        <h3 class="text-xl font-semibold flex items-center gap-2">
+                            <i class="fas fa-shopping-cart"></i>
+                            Your Cart (<span id="sidebarCartCount">0</span>)
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <ul class="divide-y divide-gray-200" id="sidebarCartList"></ul>
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <p class="text-lg font-semibold flex justify-between">
+                                <span>Subtotal:</span>
+                                <span>NAD <span id="sidebarCartTotal">0</span></span>
+                            </p>
+                            <p class="text-sm text-gray-500 mb-4">Delivery fee: NAD 15.00 (Cash on delivery)</p>
+                            <a id="sidebarWhatsappLink" target="_blank" 
+                               class="w-full mt-4 inline-flex items-center justify-center px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition duration-200 shadow-md hover:shadow-lg">
+                                <i class="fab fa-whatsapp mr-2 text-xl"></i>
+                                Place Order via WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Section - Visible on mobile -->
+    <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white shadow-lg rounded-t-2xl p-4 transition-transform duration-300 transform translate-y-full" id="mobileCartDrawer">
+        <div class="flex justify-between items-center mb-3">
+            <h3 class="text-lg font-semibold flex items-center gap-2">
+                <i class="fas fa-shopping-cart"></i>
+                Your Cart (<span id="mobileCartCount">0</span>)
+            </h3>
+            <button id="closeCart" class="text-gray-500">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="max-h-60 overflow-y-auto mb-3" id="mobileCartList"></div>
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="font-semibold">Total: NAD <span id="mobileCartTotal">0</span></p>
+                <p class="text-xs text-gray-500">+ NAD 15.00 delivery fee</p>
+            </div>
+            <a id="mobileWhatsappLink" target="_blank" 
+               class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg flex items-center gap-2">
+                <i class="fab fa-whatsapp"></i>
+                Order
+            </a>
+        </div>
+    </div>
+
+    <!-- Floating Cart Button - Mobile only -->
+    <div class="lg:hidden cart-float fixed bottom-8 right-8 bg-green-600 text-white p-4 rounded-full shadow-xl cursor-pointer z-50 flex items-center gap-2"
+         onclick="toggleMobileCart()">
+        <i class="fas fa-shopping-cart text-xl"></i>
+        <span class="font-semibold" id="cartCount">0</span>
+    </div>
+
+    <script>
+        const products = [
+            {
+                category: "Fresh Produce",
+                items: [
+                    { id: 1, name: "Tomatoes (1kg)", price: 25, image: "https://images.unsplash.com/photo-1592841200221-a6895f5f0a0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" },
+                    { id: 2, name: "Onions (1kg)", price: 18, image: "https://images.unsplash.com/photo-1582284540020-8acbe03f4924?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" },
+                    { id: 3, name: "Carrots (1kg)", price: 22, image: "https://images.unsplash.com/photo-1447175008436-054170c2e979?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" }
+                ]
+            },
+            {
+                category: "Meat & Proteins",
+                items: [
+                    { id: 4, name: "Chicken (1kg)", price: 55, image: "https://images.unsplash.com/photo-1604977048617-3ab9ec6ff4e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" },
+                    { id: 5, name: "Boerewors (500g)", price: 40, image: "https://images.unsplash.com/photo-1555939594-888d8b54f7d1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" }
+                ]
+            },
+            {
+                category: "Staples & Dry Goods",
+                items: [
+                    { id: 6, name: "Bread", price: 13, image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" },
+                    { id: 7, name: "Rice (2kg)", price: 30, image: "https://images.unsplash.com/photo-1547496502-affa22d38842?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" }
+                ]
+            },
+            {
+                category: "Drinks & Snacks",
+                items: [
+                    { id: 8, name: "Oros (2L)", price: 45, image: "https://images.unsplash.com/photo-1551029506-0807df4e2031?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" },
+                    { id: 9, name: "Chips", price: 10, image: "https://images.unsplash.com/photo-1576479556463-fa75977d9c3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" }
+                ]
+            },
+            {
+                category: "Household Essentials",
+                items: [
+                    { id: 10, name: "Toilet Paper", price: 25, image: "https://images.unsplash.com/photo-1583947581924-a8b1d6cf0f82?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" }
+                ]
+            }
+        ];
+
+        // Initialize cart from localStorage or empty array
+        let cart = JSON.parse(localStorage.getItem('tumaCart')) || [];
+        
+        // DOM elements
+        const categoryTabs = document.getElementById("categoryTabs");
+        const productGrid = document.getElementById("productGrid");
+        const searchInput = document.getElementById("searchInput");
+        const searchButton = document.getElementById("searchButton");
+        const clearSearch = document.getElementById("clearSearch");
+        
+        // Cart elements
+        const cartCount = document.getElementById("cartCount");
+        const sidebarCartList = document.getElementById("sidebarCartList");
+        const sidebarCartTotal = document.getElementById("sidebarCartTotal");
+        const sidebarCartCount = document.getElementById("sidebarCartCount");
+        const sidebarWhatsappLink = document.getElementById("sidebarWhatsappLink");
+        
+        // Mobile cart elements
+        const mobileCartDrawer = document.getElementById("mobileCartDrawer");
+        const mobileCartList = document.getElementById("mobileCartList");
+        const mobileCartTotal = document.getElementById("mobileCartTotal");
+        const mobileCartCount = document.getElementById("mobileCartCount");
+        const mobileWhatsappLink = document.getElementById("mobileWhatsappLink");
+        const closeCart = document.getElementById("closeCart");
+
+        function renderTabs() {
+            products.forEach((cat, index) => {
+                const btn = document.createElement("button");
+                btn.className = "tab-btn flex-shrink-0 px-4 py-2 mx-1 font-medium text-gray-700 hover:text-green-600 transition";
+                btn.textContent = cat.category;
+                btn.onclick = () => {
+                    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active", "text-green-600"));
+                    btn.classList.add("active", "text-green-600");
+                    renderProducts(cat.items);
+                };
+                if (index === 0) btn.classList.add("active", "text-green-600");
+                categoryTabs.appendChild(btn);
+            });
+        }
+
+        function renderProducts(items) {
+            productGrid.innerHTML = "";
+            if (items.length === 0) {
+                productGrid.innerHTML = `
+                    <div class="col-span-3 text-center py-10">
+                        <i class="fas fa-search text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">No products found. Try a different search.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            items.forEach(product => {
+                // Check if product is already in cart
+                const cartItem = cart.find(item => item.id === product.id);
+                const quantity = cartItem ? cartItem.quantity : 0;
+                
+                const card = document.createElement("div");
+                card.className = "product-card bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition duration-300";
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h4 class="font-semibold text-lg mb-1">${product.name}</h4>
+                        <p class="text-green-600 font-bold mb-3">N$ ${product.price}</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center ${quantity > 0 ? '' : 'hidden'}" id="quantityControls-${product.id}">
+                                <button onclick='updateQuantity(${product.id}, ${quantity - 1})' class="quantity-btn bg-gray-100 hover:bg-gray-200">
+                                    <i class="fas fa-minus text-xs"></i>
+                                </button>
+                                <span class="mx-3 w-8 text-center">${quantity}</span>
+                                <button onclick='updateQuantity(${product.id}, ${quantity + 1})' class="quantity-btn bg-gray-100 hover:bg-gray-200">
+                                    <i class="fas fa-plus text-xs"></i>
+                                </button>
+                            </div>
+                            <button onclick='addToCart(${JSON.stringify(product)})' 
+                                    class="${quantity > 0 ? 'hidden' : ''} bg-green-100 hover:bg-green-600 hover:text-white text-green-700 py-2 px-4 rounded-lg transition duration-200 font-medium"
+                                    id="addButton-${product.id}">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productGrid.appendChild(card);
+            });
+        }
+
+        function addToCart(product) {
+            // Check if product already exists in cart
+            const existingItem = cart.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+            
+            saveCart();
+            updateCart();
+            
+            // Update the specific product's UI
+            const quantityControls = document.getElementById(`quantityControls-${product.id}`);
+            const addButton = document.getElementById(`addButton-${product.id}`);
+            
+            if (quantityControls && addButton) {
+                quantityControls.classList.remove('hidden');
+                addButton.classList.add('hidden');
+                
+                // Update the quantity display
+                const quantityDisplay = quantityControls.querySelector('span');
+                const cartItem = cart.find(item => item.id === product.id);
+                if (quantityDisplay && cartItem) {
+                    quantityDisplay.textContent = cartItem.quantity;
+                }
+            }
+            
+            // Add animation to cart button
+            const cartFloat = document.querySelector('.cart-float');
+            cartFloat.classList.add('animate-bounce');
+            setTimeout(() => {
+                cartFloat.classList.remove('animate-bounce');
+            }, 1000);
+            
+            // On mobile, show the cart drawer when adding an item
+            if (window.innerWidth < 1024) {
+                toggleMobileCart(true);
+            }
+        }
+
+        function updateQuantity(productId, newQuantity) {
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            
+            if (itemIndex !== -1) {
+                if (newQuantity < 1) {
+                    // Remove item if quantity goes to 0
+                    cart.splice(itemIndex, 1);
+                    
+                    // Update the UI to show "Add to Cart" button
+                    const quantityControls = document.getElementById(`quantityControls-${productId}`);
+                    const addButton = document.getElementById(`addButton-${productId}`);
+                    
+                    if (quantityControls && addButton) {
+                        quantityControls.classList.add('hidden');
+                        addButton.classList.remove('hidden');
+                    }
+                } else {
+                    // Update quantity
+                    cart[itemIndex].quantity = newQuantity;
+                    
+                    // Update the quantity display
+                    const quantityDisplay = document.querySelector(`#quantityControls-${productId} span`);
+                    if (quantityDisplay) {
+                        quantityDisplay.textContent = newQuantity;
+                    }
+                }
+                
+                saveCart();
+                updateCart();
+            }
+        }
+
+        function removeFromCart(index) {
+            const removedItem = cart[index];
+            cart.splice(index, 1);
+            saveCart();
+            updateCart();
+            
+            // Update the product card UI if it's visible
+            const quantityControls = document.getElementById(`quantityControls-${removedItem.id}`);
+            const addButton = document.getElementById(`addButton-${removedItem.id}`);
+            
+            if (quantityControls && addButton) {
+                quantityControls.classList.add('hidden');
+                addButton.classList.remove('hidden');
+            }
+        }
+
+        function updateCart() {
+            // Update all cart lists
+            updateCartList(sidebarCartList);
+            updateCartList(mobileCartList);
+            
+            let total = calculateTotal();
+            
+            // Update all counters and totals
+            const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = itemCount;
+            sidebarCartCount.textContent = itemCount;
+            mobileCartCount.textContent = itemCount;
+            
+            sidebarCartTotal.textContent = total;
+            mobileCartTotal.textContent = total;
+            
+            // Update WhatsApp links
+            updateWhatsappLinks(total);
+            
+            // Update navbar cart count if available
+            if (typeof updateNavbarCartCount === 'function') {
+                updateNavbarCartCount();
+            }
+        }
+
+        function updateCartList(listElement) {
+            listElement.innerHTML = "";
+            if (cart.length === 0) {
+                listElement.innerHTML = `<li class="py-4 text-center text-gray-500">Your cart is empty</li>`;
+                return;
+            }
+            
+            cart.forEach((item, i) => {
+                const li = document.createElement("li");
+                li.className = "py-3 flex justify-between items-center";
+                li.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span>${item.name}</span>
+                        <span class="text-sm text-gray-500">(${item.quantity}x)</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="font-semibold">N$ ${item.price * item.quantity}</span>
+                        <button onclick="removeFromCart(${i})" class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                listElement.appendChild(li);
+            });
+        }
+
+        function calculateTotal() {
+            return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        }
+
+        function updateWhatsappLinks(total) {
+            const itemsList = cart.map(item => 
+                `➡ ${item.name} (${item.quantity}x) - N$${item.price * item.quantity}`
+            ).join("\n");
+            
+            const message = encodeURIComponent(
+                `*TUMA Grocery Order*\n\n` +
+                `${itemsList}\n\n` +
+                `*Subtotal: N$${total}*\n` +
+                `*Delivery Fee: N$15.00*\n` +
+                `*Total: N$${total + 15}*\n\n` +
+                `Delivery to: [Your Address]\n\n` +
+                `*Payment Method:* Cash on Delivery`
+            );
+            const whatsappUrl = `https://wa.me/264816501070?text=${message}`;
+            sidebarWhatsappLink.href = whatsappUrl;
+            mobileWhatsappLink.href = whatsappUrl;
+        }
+
+        function toggleMobileCart(show = null) {
+            if (show === null) {
+                show = mobileCartDrawer.classList.contains('translate-y-full');
+            }
+            
+            if (show) {
+                mobileCartDrawer.classList.remove('translate-y-full');
+                mobileCartDrawer.classList.add('translate-y-0');
+            } else {
+                mobileCartDrawer.classList.remove('translate-y-0');
+                mobileCartDrawer.classList.add('translate-y-full');
+            }
+        }
+
+        function handleSearch() {
+            const searchTerm = searchInput.value.toLowerCase();
+            if (searchTerm) {
+                clearSearch.classList.remove('hidden');
+            } else {
+                clearSearch.classList.add('hidden');
+            }
+            
+            const filteredItems = products.flatMap(p => p.items).filter(i => 
+                i.name.toLowerCase().includes(searchTerm)
+            );
+            renderProducts(filteredItems);
+        }
+
+        function saveCart() {
+            localStorage.setItem('tumaCart', JSON.stringify(cart));
+        }
+
+        // Event listeners
+        searchInput.addEventListener('input', handleSearch);
+        searchButton.addEventListener('click', handleSearch);
+        clearSearch.addEventListener('click', () => {
+            searchInput.value = '';
+            clearSearch.classList.add('hidden');
+            handleSearch();
+            searchInput.focus();
+        });
+        closeCart.addEventListener('click', () => toggleMobileCart(false));
+
+        // Keyboard shortcut for search
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleSearch();
+            }
+        });
+
+        // Initial load
+        renderTabs();
+        renderProducts(products[0].items);
+        updateCart();
+    </script>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Navbar Loader Script -->
+    <script>
+        // Load navbar
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('navbar-container').innerHTML = html;
+                
+                // Highlight current page in navbar
+                const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+                document.querySelectorAll('.navbar-link').forEach(link => {
+                    if (link.getAttribute('href') === currentPage) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // Initialize mobile menu toggle
+                document.getElementById('mobileMenuButton').addEventListener('click', function() {
+                    const menu = document.getElementById('mobileMenu');
+                    menu.classList.toggle('hidden');
+                });
+                
+                // Update cart count after navbar loads
+                if (typeof updateNavbarCartCount === 'function') {
+                    updateNavbarCartCount();
+                }
+            })
+            .catch(error => {
+                console.error('Error loading navbar:', error);
+            });
+
+        // Update navbar cart count
+        function updateNavbarCartCount() {
+            const cart = JSON.parse(localStorage.getItem('tumaCart')) || [];
+            const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            const navbarCount = document.getElementById('navbarCartCount');
+            const mobileNavCount = document.getElementById('mobileNavCartCount');
+            
+            if (navbarCount) navbarCount.textContent = itemCount;
+            if (mobileNavCount) mobileNavCount.textContent = itemCount;
+        }
+
+        // Listen for storage events to update count across tabs
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'tumaCart') {
+                updateNavbarCartCount();
+            }
+        });
+    </script>
+</body>
+</html>
