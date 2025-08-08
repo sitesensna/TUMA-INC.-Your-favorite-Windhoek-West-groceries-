@@ -196,6 +196,40 @@ background: url('img/banner1.jpg') center center/cover no-repeat;
 }
 
 /* How it works section */
+/* Mobile responsive for .how-it-works and .steps */
+@media (max-width: 600px) {
+  .how-it-works {
+    padding: 12px 4px;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  .how-it-works h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .steps {
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+  }
+  .step {
+    max-width: 100%;
+    padding: 16px 10px;
+    font-size: 15px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .step h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .step p {
+    font-size: 14px;
+    text-align: center;
+  }
+}
 .how-it-works {
   max-width: 900px;
   margin: 0 auto 48px auto;
@@ -361,5 +395,9 @@ footer img {
   opacity: 1;
 }
 
-
+/*shop style*/
+/*shop style*/
+/*shop style*/
+/*shop style*/
+/*shop style*/
 

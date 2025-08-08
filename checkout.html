@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Checkout - TUMA Grocery Delivery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Tailwind CSS for quick styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <nav class="bg-white shadow p-4 flex justify-between items-center">
+    <a href="index.html" class="text-green-700 font-bold text-xl flex items-center gap-2">
+      <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+    <h1 class="text-xl font-semibold text-green-700">Checkout</h1>
+    <div></div>
+  </nav>
+
+  <main class="flex-grow max-w-3xl mx-auto p-6 bg-white rounded-lg shadow mt-8 mb-8">
+    <h2 class="text-2xl font-bold mb-4">Confirm Your Order</h2>
+
+    <section id="orderSummary" class="mb-6">
+      <!-- Order details inserted by JS -->
+    </section>
+
+    <section id="deliveryInfo" class="mb-6">
+      <!-- Delivery and payment info inserted by JS -->
+    </section>
+
+    <div class="flex gap-4">
+      <button id="adjustOrderBtn" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold py-3 rounded-lg transition">
+        Adjust Order
+      </button>
+      <button id="confirmOrderBtn" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition">
+        Confirm & Place Order via WhatsApp
+      </button>
+    </div>
+  </main>
+
+  <footer class="bg-gray-100 p-4 text-center text-gray-600 text-sm">
+    &copy; 2025 TUMA Grocery Delivery. All rights reserved.
+  </footer>
+
+  <script>
+   // Read data from localStorage
+const cart = JSON.parse(localStorage.getItem('tumaCart')) || [];
+const deliveryAddress = localStorage.getItem('tumaDeliveryAddress') || '';
+const phoneNumber = localStorage.getItem('tumaPhoneNumber') || '';
+const deliveryInstructions = localStorage.getItem('tumaDeliveryInstructions') || 'None';
+const paymentMethod = localStorage.getItem('tumaPaymentMethod') || 'cod';
+const deliveryOption = localStorage.getItem('tumaDeliveryOption') || 'standard';
+
+const orderSummaryEl = document.getElementById('orderSummary');
+const deliveryInfoEl = document.getElementById('deliveryInfo');
+const confirmOrderBtn = document.getElementById('confirmOrderBtn');
+const adjustOrderBtn = document.getElementById('adjustOrderBtn');
+
+if (cart.length === 0) {
+  orderSummaryEl.innerHTML = '<p class="text-red-600 font-semibold">Your cart is empty. Please add items before checking out.</p>';
+  confirmOrderBtn.disabled = true;
+} else {
+  // Render order summary
+  let itemsHtml = '<ul class="divide-y divide-gray-200 mb-4">';
+  let subtotal = 0;
+  cart.forEach(item => {
+    const itemTotal = item.price * item.quantity;
+    subtotal += itemTotal;
+    itemsHtml += `
+      <li class="py-2 flex justify-between">
+        <span>${item.name} (${item.quantity}x)</span>
+        <span class="font-semibold">N$${itemTotal.toFixed(2)}</span>
+      </li>`;
+  });
+  itemsHtml += '</ul>';
+
+  orderSummaryEl.innerHTML = `
+    <h3 class="text-lg font-semibold mb-2">Order Items</h3>
+    ${itemsHtml}
+    <div class="flex justify-between font-semibold text-gray-700">
+      <span>Subtotal:</span>
+      <span>N$${subtotal.toFixed(2)}</span>
+    </div>
+    <div class="flex justify-between font-semibold text-gray-700 mt-1">
+      <span>Delivery Fee (${deliveryOption === 'standard' ? 'Standard' : 'Express'}):</span>
+      <span>N$${deliveryOption === 'standard' ? '15.00' : '25.00'}</span>
+    </div>
+    <div class="border-t border-gray-300 mt-2 pt-2 flex justify-between font-bold text-lg">
+      <span>Total:</span>
+      <span>N$${(subtotal + (deliveryOption === 'standard' ? 15 : 25)).toFixed(2)}</span>
+    </div>
+  `;
+
+  deliveryInfoEl.innerHTML = `
+    <h3 class="text-lg font-semibold mb-2">Delivery & Payment Info</h3>
+    <p><strong>Delivery Address:</strong> ${deliveryAddress}</p>
+    <p><strong>Contact Number:</strong> ${phoneNumber}</p>
+    <p><strong>Delivery Instructions:</strong> ${deliveryInstructions || 'None'}</p>
+    <p><strong>Payment Method:</strong> ${paymentMethod === 'cod' ? 'Cash on Delivery' : 'Mobile Payment'}</p>
+  `;
+
+  // Confirm order button click handler
+  confirmOrderBtn.addEventListener('click', () => {
+    if (cart.length === 0) {
+      alert('Your cart is empty.');
+      return;
+    }
+
+    const itemsList = cart.map(item =>
+      `➡ ${item.name} (${item.quantity}x) - N$${(item.price * item.quantity).toFixed(2)}`
+    ).join('\n');
+
+    const deliveryFee = deliveryOption === 'standard' ? 15 : 25;
+    const total = subtotal + deliveryFee;
+
+    // Save order to history
+    const order = {
+      timestamp: new Date().toISOString(),
+      items: cart.map(item => ({
+        id: item.id,
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price
+      })),
+      deliveryAddress,
+      phoneNumber,
+      deliveryInstructions,
+      paymentMethod,
+      deliveryOption,
+      subtotal,
+      deliveryFee,
+      total
+    };
+
+    const history = JSON.parse(localStorage.getItem('tumaOrderHistory')) || [];
+    history.push(order);
+    localStorage.setItem('tumaOrderHistory', JSON.stringify(history));
+
+    // Prepare WhatsApp message
+    const message = `*TUMA Grocery Order*\n\n` +
+      `*Items:*\n${itemsList}\n\n` +
+      `*Subtotal:* N$${subtotal.toFixed(2)}\n` +
+      `*Delivery Fee (${deliveryOption === 'standard' ? 'Standard' : 'Express'}):* N$${deliveryFee.toFixed(2)}\n` +
+      `*Total:* N$${total.toFixed(2)}\n\n` +
+      `*Delivery Address:*\n${deliveryAddress}\n\n` +
+      `*Contact Number:* ${phoneNumber}\n\n` +
+      `*Delivery Instructions:*\n${deliveryInstructions || 'None'}\n\n` +
+      `*Payment Method:* ${paymentMethod === 'cod' ? 'Cash on Delivery' : 'Mobile Payment'}`;
+
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/264816501070?text=${encodedMessage}`, '_blank');
+
+    // Clear cart after placing order
+    localStorage.removeItem('tumaCart');
+
+    // Optionally notify user & redirect to home or orders page
+    alert('Order placed! Your cart has been cleared.');
+    window.location.href = 'index.html'; // or your orders/history page
+  });
+}
+
+adjustOrderBtn.addEventListener('click', () => {
+  window.location.href = 'cart.html'; // go back to cart page to adjust order
+});
+
+// Enable/disable confirm button based on cart state
+  </script>
+</body>
+</html>

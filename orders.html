@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Order History - TUMA Grocery Delivery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen p-6">
+  <h1 class="text-3xl font-bold mb-6 text-center text-green-700">Order History</h1>
+  <div id="orderHistoryContainer" class="max-w-4xl mx-auto space-y-6"></div>
+
+  <script>
+    const history = JSON.parse(localStorage.getItem('tumaOrderHistory')) || [];
+    const container = document.getElementById('orderHistoryContainer');
+
+    if (history.length === 0) {
+      container.innerHTML = '<p class="text-center text-gray-600">No past orders found.</p>';
+    } else {
+      history.reverse().forEach(order => {
+        const orderDate = new Date(order.timestamp).toLocaleString();
+        let itemsHtml = '<ul class="list-disc list-inside">';
+        order.items.forEach(item => {
+          itemsHtml += `<li>${item.name} (${item.quantity}x) - N$${(item.price * item.quantity).toFixed(2)}</li>`;
+        });
+        itemsHtml += '</ul>';
+
+        container.innerHTML += `
+          <div class="bg-white p-6 rounded shadow">
+            <h2 class="font-semibold text-lg mb-2">Order on ${orderDate}</h2>
+            <div class="mb-2"><strong>Items:</strong> ${itemsHtml}</div>
+            <div class="mb-2"><strong>Subtotal:</strong> N$${order.subtotal.toFixed(2)}</div>
+            <div class="mb-2"><strong>Delivery Fee:</strong> N$${order.deliveryFee.toFixed(2)} (${order.deliveryOption === 'standard' ? 'Standard' : 'Express'})</div>
+            <div class="mb-2 font-bold"><strong>Total:</strong> N$${order.total.toFixed(2)}</div>
+            <div class="mb-2"><strong>Delivery Address:</strong> ${order.deliveryAddress}</div>
+            <div class="mb-2"><strong>Contact Number:</strong> ${order.phoneNumber}</div>
+            <div class="mb-2"><strong>Delivery Instructions:</strong> ${order.deliveryInstructions || 'None'}</div>
+            <div><strong>Payment Method:</strong> ${order.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Mobile Payment'}</div>
+          </div>
+        `;
+      });
+    }
+  </script>
+</body>
+</html>

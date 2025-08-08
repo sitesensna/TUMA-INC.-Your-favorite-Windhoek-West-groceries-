@@ -10,254 +10,52 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        body {
-            font-family: 'Poppins', sans-serif;
-            padding-top: 72px;
-        }
-        .gradient-header {
-            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
-            margin-top: -72px;
-            padding-top: 72px;
-        }
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            width: 100%;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-        .cart-float {
-            transition: all 0.3s ease;
-        }
-        .cart-float:hover {
-            transform: scale(1.05);
-        }
-        .tab-btn.active {
-            position: relative;
-        }
-        .tab-btn.active:after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 3px;
-            background: #4CAF50;
-            border-radius: 3px;
-        }
-        @media (min-width: 1024px) {
-            .cart-sidebar {
-                position: sticky;
-                top: 92px;
-                height: calc(100vh - 40px);
-                overflow-y: auto;
-            }
-        }
-        .search-container {
-            position: relative;
-        }
-        .search-container .clear-search {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #999;
-        }
-        .search-container .clear-search:hover {
-            color: #333;
-        }
-        .how-it-works {
-            background-color: #f8f9fa;
-            padding: 4rem 0;
-        }
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        .step {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            text-align: center;
-        }
-        .step h3 {
-            color: #2E7D32;
-            margin-bottom: 1rem;
-        }
-        .restaurant-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        .restaurant {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            text-align: center;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        .restaurant:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-        }
-        .announcement {
-            background: #E3F2FD;
-            padding: 1rem;
-            text-align: center;
-            margin: 2rem 0;
-            border-radius: 8px;
-            font-weight: 500;
-        }
-        #mobileMenu {
-            transition: all 0.3s ease;
-        }
-        #navbarCartCount, #mobileNavCartCount {
-            transition: transform 0.2s ease;
-        }
-        #navbarCartCount:hover, #mobileNavCartCount:hover {
-            transform: scale(1.1);
-        }
-        .navbar-link {
-            position: relative;
-            padding-bottom: 4px;
-        }
-        .navbar-link:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #4CAF50;
-            transition: width 0.3s ease;
-        }
-        .navbar-link:hover:after {
-            width: 100%;
-        }
-        .navbar-link.active {
-            color: #4CAF50;
-        }
-        .navbar-link.active:after {
-            width: 100%;
-        }
-        #mobileCartDrawer {
-            z-index: 1001;
-        }
-        .quantity-btn {
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-    </style>
+      <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="bg-gray-50">
-    <!-- Navbar Container -->
-    <div id="navbar-container">
-        <!-- Fallback Navbar (will be replaced by navbar.html if fetch succeeds) -->
-        <nav class="navbar navbar-expand-lg bg-white shadow-sm py-3">
-            <div class="container-fluid">
-                <a class="navbar-brand font-bold text-green-700" href="index.html">TUMA Grocery</a>
-                <button class="navbar-toggler" type="button" id="mobileMenuButton">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="mobileMenu">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="navbar-link nav-link" href="index.html">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="navbar-link nav-link" href="shop.html">Shop</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="navbar-link nav-link" href="about.html">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="navbar-link nav-link" href="contact.html">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="navbar-link nav-link position-relative" href="cart.html">
-                                <i class="fas fa-shopping-cart"></i>
-                                <span id="navbarCartCount" class="badge bg-green-600 position-absolute top-0 start-100 translate-middle">0</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="navbar-container">
+      <a href="index.html" class="navbar-brand" aria-label="TUMA Home">
+        <img src="/img/logo.png" alt="TUMA logo" />
+        <span style="color: #ff9800;">Grocery Delivery</span> 
+      </a>
+      <div class="navbar-links" role="navigation" aria-label="Primary Navigation">
+        <a href="index.html" class="navbar-link active" aria-current="page">Home</a>
+        <a href="shop.html" class="navbar-link">Shop</a>
+        <a href="cart.html" class="navbar-link">Cart</a>
+        <a href="about.html" class="navbar-link">About</a>
+        <a href="cart.html" class="cart-icon" aria-label="View cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="navbarCartCount" aria-live="polite" aria-atomic="true">0</span>
+        </a>
+      </div>
+      <button class="mobile-menu-button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobileMenu">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
-
-    <!-- Hero Section -->
-    <div class="gradient-header text-white py-16 text-center">
-        <div class="container mx-auto px-4">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">Your favorite NUST-area groceries delivered to you</h1>
-            <p class="text-xl md:text-2xl">Just NAD 15.00 per delivery<br>No minimum order size</p>
-        </div>
+    <div class="mobile-menu" id="mobileMenu" role="menu" aria-hidden="true">
+      <a href="index.html" role="menuitem">Home</a>
+      <a href="shop.html" role="menuitem">Shop</a>
+      <a href="cart.html" role="menuitem">Cart</a>
+      <a href="about.html" role="menuitem">About</a>
     </div>
+  </nav>
 
-    <!-- How It Works Section -->
-    <section class="how-it-works">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-2">How It Works</h2>
-            <div class="steps">
-                <div class="step">
-                    <h3 class="text-xl font-semibold">1. Pick your groceries</h3>
-                    <p>Choose groceries from Pick n Pay and Checkers.</p>
-                </div>
-                <div class="step">
-                    <h3 class="text-xl font-semibold">2. Order online</h3>
-                    <p>Place your order with us online and select your delivery location.</p>
-                </div>
-                <div class="step">
-                    <h3 class="text-xl font-semibold">3. We deliver the groceries!</h3>
-                    <p>Pay by cash when we deliver.</p>
-                </div>
-            </div>
-            <div class="text-center">
-                <button onclick="document.getElementById('product-section').scrollIntoView({ behavior: 'smooth' })" 
-                        class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition duration-200 shadow-lg">
-                    Click Here to Order Online
-                </button>
-            </div>
-        </div>
-    </section>
+  <!-- Hero Section -->
+  <section class="header" role="banner">
+    <h1>Your favorite Windhoek West groceries, delivered</h1>
+    <p>Only NAD 15.00 per delivery • No minimum order</p>
+    <a href="shop.html"_blank" rel="noopener" class="cta-button" aria-label="Order groceries now">Order Groceries Now</a>
+  </section>
+    
+    
+
 
     <!-- Announcement -->
     <div class="announcement container mx-auto px-4">
         Announcement: We now deliver groceries daily from 9am – 6pm
     </div>
-
-    <!-- Stores Section -->
-    <section class="container mx-auto px-4 py-12">
-        <h2 class="text-3xl font-bold text-center mb-6">Pick a Store</h2>
-        <div class="restaurant-grid">
-            <div class="restaurant">Pick n Pay</div>
-            <div class="restaurant">Checkers</div>
-            <div class="restaurant">Food Lovers</div>
-            <div class="restaurant">Shoprite</div>
-        </div>
-        <p class="text-center text-gray-600 mt-4"><strong>Note:</strong> Local delivery only around Windhoek-West.</p>
-    </section>
 
     <!-- Products Section -->
     <section id="product-section" class="container mx-auto px-4 py-8">
@@ -302,11 +100,11 @@
                                 <span>NAD <span id="sidebarCartTotal">0</span></span>
                             </p>
                             <p class="text-sm text-gray-500 mb-4">Delivery fee: NAD 15.00 (Cash on delivery)</p>
-                            <a id="sidebarWhatsappLink" target="_blank" 
-                               class="w-full mt-4 inline-flex items-center justify-center px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition duration-200 shadow-md hover:shadow-lg">
-                                <i class="fab fa-whatsapp mr-2 text-xl"></i>
-                                Place Order via WhatsApp
-                            </a>
+                          <a href="cart.html" 
+   class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg flex items-center gap-2">
+    <i class="fas fa-shopping-cart"></i>
+    Go to Cart
+</a>
                         </div>
                     </div>
                 </div>
@@ -331,11 +129,11 @@
                 <p class="font-semibold">Total: NAD <span id="mobileCartTotal">0</span></p>
                 <p class="text-xs text-gray-500">+ NAD 15.00 delivery fee</p>
             </div>
-            <a id="mobileWhatsappLink" target="_blank" 
-               class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg flex items-center gap-2">
-                <i class="fab fa-whatsapp"></i>
-                Order
-            </a>
+            <a href="cart.html" 
+   class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg flex items-center gap-2">
+    <i class="fas fa-shopping-cart"></i>
+    Go to Cart
+</a>
         </div>
     </div>
 
@@ -347,6 +145,31 @@
     </div>
 
     <script>
+
+
+
+// Mobile menu toggle
+const mobileMenuBtn = document.querySelector('.mobile-menu-button');
+const mobileMenu = document.getElementById('mobileMenu');
+
+// Ensure mobile menu is hidden on load
+document.addEventListener('DOMContentLoaded', () => {
+  mobileMenu.style.display = 'none';
+  mobileMenu.setAttribute('aria-hidden', 'true');
+  mobileMenuBtn.setAttribute('aria-expanded', 'false');
+});
+
+mobileMenuBtn.addEventListener('click', () => {
+  const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+  if (isExpanded) {
+    mobileMenu.style.display = 'none';
+  } else {
+    mobileMenu.style.display = 'flex';
+  }
+  mobileMenuBtn.setAttribute('aria-expanded', (!isExpanded).toString());
+  mobileMenu.setAttribute('aria-hidden', isExpanded.toString());
+});
+
         const products = [
             {
                 category: "Fresh Produce",
@@ -747,5 +570,9 @@
             }
         });
     </script>
+
+    
+  <!-- Scripts -->
+   <script src="script.js"></script>
 </body>
 </html>

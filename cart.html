@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+   <meta charset="UTF-8">
     <title>TUMA Grocery Delivery - Cart</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap CSS -->
@@ -10,63 +10,53 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Poppins', sans-serif; }
-        .gradient-header {
-            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
-        }
-        .cart-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-        .quantity-btn {
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-        .delivery-option {
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        .delivery-option:hover {
-            border-color: #4CAF50;
-        }
-        .delivery-option.selected {
-            border-color: #4CAF50;
-            background-color: #f0fff4;
-        }
-        .payment-option {
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        .payment-option:hover {
-            border-color: #4CAF50;
-        }
-        .payment-option.selected {
-            border-color: #4CAF50;
-            background-color: #f0fff4;
-        }
-    </style>
+    
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto&display=swap" rel="stylesheet" />   <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="navbar-container">
+      <a href="index.html" class="navbar-brand" aria-label="TUMA Home">
+        <img src="/img/logo.png" alt="TUMA logo" />
+        <span style="color: #ff9800;">Grocery Delivery</span> 
+      </a>
+      <div class="navbar-links" role="navigation" aria-label="Primary Navigation">
+        <a href="index.html" class="navbar-link active" aria-current="page">Home</a>
+        <a href="shop.html" class="navbar-link">Shop</a>
+        <a href="cart.html" class="navbar-link">Cart</a>
+        <a href="about.html" class="navbar-link">About</a>
+        <a href="cart.html" class="cart-icon" aria-label="View cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="navbarCartCount" aria-live="polite" aria-atomic="true">0</span>
+        </a>
+      </div>
+      <button class="mobile-menu-button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobileMenu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu" role="menu" aria-hidden="true">
+      <a href="index.html" role="menuitem">Home</a>
+      <a href="shop.html" role="menuitem">Shop</a>
+      <a href="cart.html" role="menuitem">Cart</a>
+      <a href="about.html" role="menuitem">About</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="header" role="banner">
+    <h1>Your favorite Windhoek West groceries, delivered</h1>
+    <p>Only NAD 15.00 per delivery • No minimum order</p>
+    <a href="shop.html"_blank" rel="noopener" class="cta-button" aria-label="Order groceries now">Order Groceries Now</a>
+  </section>
+    
+    
+    
+    
+   
 </head>
 <body class="bg-gray-50">
-    <!-- Header -->
-    <header class="gradient-header text-white py-6 shadow-md">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col items-center">
-                <h1 class="text-3xl md:text-4xl font-bold mb-2">TUMA Grocery Delivery</h1>
-                <div class="flex items-center gap-2">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <p class="text-lg">Windhoek West · Cash on Delivery</p>
-                </div>
-            </div>
-        </div>
-    </header>
 
     <!-- Main Cart Content -->
     <main class="container mx-auto px-4 py-8">
@@ -234,9 +224,10 @@
                         </div>
 
                         <!-- Place Order Button -->
-                        <button id="placeOrderBtn" onclick="placeOrder()" class="w-full mt-6 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                            <i class="fab fa-whatsapp mr-2"></i> Place Order via WhatsApp
-                        </button>
+                       <button id="checkoutBtn" onclick="goToCheckout()" class="w-full mt-6 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+  Checkout
+</button>
+
 
                         <!-- Continue Shopping -->
                         <div class="mt-4 text-center">
@@ -250,218 +241,28 @@
         </div>
     </main>
 
-    <!-- Replace the existing script section with this updated version -->
-<script>
-    // Cart data
-    let cart = JSON.parse(localStorage.getItem('tumaCart')) || [];
-    let deliveryOption = 'standard';
-    let deliveryFee = 15;
-    let paymentMethod = 'cod';
+   <footer>
+    <div style="max-width:900px;margin:0 auto;padding:16px;text-align:center;color:#666;font-size:15px;">
+      <img src="img/logo.png" alt="TUMA logo" style="height:32px;vertical-align:middle;margin-bottom:8px;">
+      <div style="font-weight:600;color:#138234;margin-bottom:8px;">TUMA Grocery Delivery</div>
+      <div style="margin-bottom:8px;">
+        <i class="fas fa-phone" style="color:#138234;"></i> +264 81 650 1070 &nbsp;|&nbsp;
+        <a href="mailto:tnghuulile@gmail.com" style="color:#138234;text-decoration:none;">
+          <i class="fas fa-envelope"></i> tnghuulile@gmail.com
+        </a>
+      </div>
+      <div style="margin-bottom:8px;">
+        <a href="https://wa.me/264816501070" target="_blank" rel="noopener" aria-label="WhatsApp" style="color:#25d366;font-size:18px;margin-right:8px;">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </div>
+      <div style="font-size:13px;">&copy; 2025 TUMA. All rights reserved.</div>
+    </div>
+  </footer>
 
-    // DOM elements
-    const cartItemsList = document.getElementById('cartItemsList');
-    const emptyCartDiv = document.getElementById('emptyCart');
-    const cartItemsDiv = document.getElementById('cartItems');
-    const itemCountSpan = document.getElementById('itemCount');
-    const subtotalSpan = document.getElementById('subtotal');
-    const deliveryFeeSpan = document.getElementById('deliveryFee');
-    const totalSpan = document.getElementById('total');
-    const placeOrderBtn = document.getElementById('placeOrderBtn');
-    const deliveryAddressInput = document.getElementById('deliveryAddress');
-    const phoneNumberInput = document.getElementById('phoneNumber');
-    const deliveryInstructionsInput = document.getElementById('deliveryInstructions');
 
-    // Initialize the cart page
-    function initCartPage() {
-        renderCartItems();
-        updateOrderSummary();
-        selectDeliveryOption('standard');
-        selectPaymentMethod('cod');
-        checkOrderButton();
-        
-        // Load saved address and phone if available
-        const savedAddress = localStorage.getItem('tumaDeliveryAddress');
-        const savedPhone = localStorage.getItem('tumaPhoneNumber');
-        if (savedAddress) deliveryAddressInput.value = savedAddress;
-        if (savedPhone) phoneNumberInput.value = savedPhone;
-        
-        // Add event listeners
-        deliveryAddressInput.addEventListener('input', checkOrderButton);
-        phoneNumberInput.addEventListener('input', checkOrderButton);
-    }
+  <!-- Scripts -->
+   <script src="script.js"></script>
 
-    // Render cart items
-    function renderCartItems() {
-        if (cart.length === 0) {
-            emptyCartDiv.classList.remove('hidden');
-            cartItemsDiv.classList.add('hidden');
-            return;
-        }
-
-        emptyCartDiv.classList.add('hidden');
-        cartItemsDiv.classList.remove('hidden');
-        cartItemsList.innerHTML = '';
-
-        cart.forEach((item, index) => {
-            const li = document.createElement('li');
-            li.className = 'py-4 cart-item transition duration-200';
-            li.innerHTML = `
-                <div class="flex items-start justify-between">
-                    <div class="flex items-start gap-4">
-                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg">
-                        <div>
-                            <h3 class="font-semibold">${item.name}</h3>
-                            <p class="text-green-600 font-bold">N$ ${item.price.toFixed(2)}</p>
-                            <div class="flex items-center mt-2">
-                                <button onclick="updateQuantity(${index}, ${item.quantity - 1})" class="quantity-btn bg-gray-100 hover:bg-gray-200">
-                                    <i class="fas fa-minus text-xs"></i>
-                                </button>
-                                <span class="mx-3 w-8 text-center">${item.quantity}</span>
-                                <button onclick="updateQuantity(${index}, ${item.quantity + 1})" class="quantity-btn bg-gray-100 hover:bg-gray-200">
-                                    <i class="fas fa-plus text-xs"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <p class="font-semibold">N$ ${(item.price * item.quantity).toFixed(2)}</p>
-                        <button onclick="removeItem(${index})" class="text-red-500 hover:text-red-700 mt-2">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-            cartItemsList.appendChild(li);
-        });
-    }
-
-    // Update item quantity
-    function updateQuantity(index, newQuantity) {
-        if (newQuantity < 1) {
-            removeItem(index);
-            return;
-        }
-        
-        cart[index].quantity = newQuantity;
-        saveCart();
-        renderCartItems();
-        updateOrderSummary();
-    }
-
-    // Remove item from cart
-    function removeItem(index) {
-        cart.splice(index, 1);
-        saveCart();
-        renderCartItems();
-        updateOrderSummary();
-    }
-
-    // Clear entire cart
-    function clearCart() {
-        if (confirm('Are you sure you want to clear your cart?')) {
-            cart = [];
-            saveCart();
-            renderCartItems();
-            updateOrderSummary();
-        }
-    }
-
-    // Select delivery option
-    function selectDeliveryOption(option) {
-        deliveryOption = option;
-        deliveryFee = option === 'standard' ? 15 : 25;
-        
-        // Update UI
-        document.querySelectorAll('.delivery-option').forEach(el => {
-            el.classList.remove('selected');
-            el.querySelector('.bg-green-500').classList.add('hidden');
-        });
-        
-        const selectedOption = document.querySelector(`.delivery-option[onclick="selectDeliveryOption('${option}')"]`);
-        selectedOption.classList.add('selected');
-        selectedOption.querySelector('.bg-green-500').classList.remove('hidden');
-        
-        // Update order summary
-        deliveryFeeSpan.textContent = deliveryFee.toFixed(2);
-        updateOrderSummary();
-    }
-
-    // Select payment method
-    function selectPaymentMethod(method) {
-        paymentMethod = method;
-        
-        // Update UI
-        document.querySelectorAll('.payment-option').forEach(el => {
-            el.classList.remove('selected');
-            el.querySelector('.bg-green-500').classList.add('hidden');
-        });
-        
-        const selectedOption = document.querySelector(`.payment-option[onclick="selectPaymentMethod('${method}')"]`);
-        selectedOption.classList.add('selected');
-        selectedOption.querySelector('.bg-green-500').classList.remove('hidden');
-    }
-
-    // Update order summary
-    function updateOrderSummary() {
-        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const total = subtotal + deliveryFee;
-        
-        itemCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
-        subtotalSpan.textContent = subtotal.toFixed(2);
-        totalSpan.textContent = total.toFixed(2);
-        
-        checkOrderButton();
-    }
-
-    // Check if order button should be enabled
-    function checkOrderButton() {
-        const hasItems = cart.length > 0;
-        const hasAddress = deliveryAddressInput.value.trim() !== '';
-        const hasPhone = phoneNumberInput.value.trim() !== '';
-        
-        placeOrderBtn.disabled = !(hasItems && hasAddress && hasPhone);
-    }
-
-    // Place order via WhatsApp
-    function placeOrder() {
-        // Save address and phone for future orders
-        localStorage.setItem('tumaDeliveryAddress', deliveryAddressInput.value.trim());
-        localStorage.setItem('tumaPhoneNumber', phoneNumberInput.value.trim());
-        
-        // Prepare order details
-        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const total = subtotal + deliveryFee;
-        
-        // Format items list
-        const itemsList = cart.map(item => 
-            `➡ ${item.name} (${item.quantity}x) - N$${(item.price * item.quantity).toFixed(2)}`
-        ).join('\n');
-        
-        // Prepare WhatsApp message
-        const message = `*TUMA Grocery Order*\n\n` +
-            `*Items:*\n${itemsList}\n\n` +
-            `*Subtotal:* N$${subtotal.toFixed(2)}\n` +
-            `*Delivery Fee (${deliveryOption === 'standard' ? 'Standard' : 'Express'}):* N$${deliveryFee.toFixed(2)}\n` +
-            `*Total:* N$${total.toFixed(2)}\n\n` +
-            `*Delivery Address:*\n${deliveryAddressInput.value.trim()}\n\n` +
-            `*Contact Number:* ${phoneNumberInput.value.trim()}\n\n` +
-            `*Delivery Instructions:*\n${deliveryInstructionsInput.value.trim() || 'None'}\n\n` +
-            `*Payment Method:* ${paymentMethod === 'cod' ? 'Cash on Delivery' : 'Mobile Payment'}`;
-        
-        // Encode and open WhatsApp
-        const encodedMessage = encodeURIComponent(message);
-        window.open(`https://wa.me/264816501070?text=${encodedMessage}`, '_blank');
-    }
-
-    // Save cart to localStorage
-    function saveCart() {
-        localStorage.setItem('tumaCart', JSON.stringify(cart));
-    }
-
-    // Initialize the page
-    initCartPage();
-</script>
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
